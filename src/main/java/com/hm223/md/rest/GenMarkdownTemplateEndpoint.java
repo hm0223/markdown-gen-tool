@@ -28,7 +28,7 @@ import java.util.stream.Collectors;
 public class GenMarkdownTemplateEndpoint {
 
     private static final String TABLE_OF_CONTENTS = "Table of contents";
-    private static final String PROJECT_NAME_CODE = "00";
+    private static final String PROJECT_NAME_CODE = "0";
 
     @PostMapping("/gen/{projectName}")
     public boolean gen(
@@ -51,12 +51,12 @@ public class GenMarkdownTemplateEndpoint {
     }
 
     private void writeProjectName(String projectName, File mdFile) {
-        FileUtil.appendUtf8String("# " + projectName + "\r\n", mdFile);
+        FileUtil.appendUtf8String("\r\n" + "# " + projectName + "\r\n", mdFile);
     }
 
     private void writeContents(String projectName, List<TitleItem> list, File mdFile) {
-        final List<TitleItem> sortedList = list.stream().sorted(
-                Comparator.comparingInt(o -> Integer.parseInt(o.getCode()))).collect(Collectors.toList());
+        final List<TitleItem> sortedList = list.stream()
+                .sorted(Comparator.comparing(TitleItem::getCode)).collect(Collectors.toList());
         for (TitleItem titleItem : sortedList) {
             if (TABLE_OF_CONTENTS.equals(titleItem.getName())) {
                 writeTitle(titleItem, mdFile, false);
@@ -70,7 +70,7 @@ public class GenMarkdownTemplateEndpoint {
     }
 
     private void writeTitle(TitleItem titleItem, File mdFile, boolean containsBody) {
-        FileUtil.appendUtf8String("#".repeat(titleItem.getCode().length() - 1) + " " + titleItem.getName() + "\r\n", mdFile);
+        FileUtil.appendUtf8String("\r\n" + "#".repeat(titleItem.getCode().length()) + " " + titleItem.getName() + "\r\n", mdFile);
         if (containsBody) {
             FileUtil.appendUtf8String(titleItem.getBody() + "\r\n", mdFile);
         }
@@ -88,11 +88,11 @@ public class GenMarkdownTemplateEndpoint {
 
     private String getPrefix(String code) {
         final String contentPrefix = "- ";
-        if (code.length() == 2) {
+        if (code.length() == 1) {
             return contentPrefix;
         }
-        if (code.length() > 2) {
-            int tabSize = (code.length() - 2);
+        if (code.length() > 1) {
+            int tabSize = (code.length() - 1);
             return "\t".repeat(tabSize) + contentPrefix;
         }
         return "";

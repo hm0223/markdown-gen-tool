@@ -17,17 +17,21 @@ POST http://localhost:8081/gen/ProjectA
 Content-Type: application/json
 
 [
-  {"code":"01", "name":"Install"},
-  {"code":"02", "name":"Table of contents"},
-  {"code":"03", "name":"Demo Preview"},
-  {"code":"04", "name":"Test Parent"},
-  {"code":"041", "name":"Son One"},
-  {"code":"042", "name":"Son Two"}
+  {"code":"1", "name":"Install"},
+  {"code":"2", "name":"Table of contents"},
+  {"code":"3", "name":"Demo Preview Parent"},
+  {"code":"4", "name":"Test End"},
+  {"code":"31", "name":"Son One"},
+  {"code":"32", "name":"Son Two"}
 ]
 ```
 
+## Preview
+
 执行生成的文档会在资源目录中：
+
 ![Show Gen Path](./image/show-gen-path.png)
 
+生成的文档长这样：
 ![Demo Preview](./image/demo-preview.png)
 
